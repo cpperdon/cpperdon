@@ -33,7 +33,7 @@ module Mastodon
     end
 
     def repository
-      'tootsuite/mastodon'
+      'cpperdon/cpperdon'
     end
 
     def source_base_url
