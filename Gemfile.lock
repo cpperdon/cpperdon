@@ -326,6 +326,7 @@ GEM
       mimemagic (~> 0.3.2)
     mario-redis-lock (1.2.1)
       redis (>= 3.0.5)
+    mastodon_cthulhu (0.1.2)
     memory_profiler (0.9.10)
     method_source (0.9.0)
     microformats (4.0.7)
@@ -698,6 +699,7 @@ DEPENDENCIES
   lograge (~> 0.10)
   makara (~> 0.4)
   mario-redis-lock (~> 1.2)
+  mastodon_cthulhu
   memory_profiler
   microformats (~> 4.0)
   mime-types (~> 3.1)
@@ -765,4 +767,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.3
+   1.16.4
