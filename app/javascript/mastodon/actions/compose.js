@@ -109,7 +109,7 @@ export function directCompose(account, routerHistory) {
   };
 };
 
-export function submitCompose(routerHistory) {
+export function submitCompose(routerHistory, primary) {
   return function (dispatch, getState) {
     const rawStatus = getState().getIn(['compose', 'text'], '');
     const media = getState().getIn(['compose', 'media_attachments']);
@@ -118,7 +118,7 @@ export function submitCompose(routerHistory) {
     }
 
     const { status, visibility, hasDefaultHashtag } = handleDefaultTag(
-      withCommunity,
+      primary,
       rawStatus,
       getState().getIn(['compose', 'privacy']),
       getState().getIn(['compose', 'in_reply_to']),
@@ -169,14 +169,15 @@ export function submitCompose(routerHistory) {
   };
 };
 
-const handleDefaultTag = (withCommunity, status, visibility, in_reply_to) => {
+const handleDefaultTag = (primary, status, visibility, in_reply_to) => {
   const tags = extractHashtags(status);
   const hasHashtags = tags.length > 0;
   const hasDefaultHashtag = tags.some(tag => tag === process.env.DEFAULT_HASHTAG);
   const isPublic = visibility === 'public';
+  const isUnlisted = visibility === 'unlisted';
 
-  if (withCommunity) {
-    // toot with community:
+  if (primary) {
+    // primary toot button:
     // if has default hashtag: keep
     // else if public && non-reply: add default hashtag
     return hasDefaultHashtag ? {
@@ -189,8 +190,17 @@ const handleDefaultTag = (withCommunity, status, visibility, in_reply_to) => {
       hasDefaultHashtag: true,
     };
 
+  } else if (isUnlisted) {
+    // secondary toot button:
+    // if unlisted: add default hashta, change visibility to public
+    return {
+      status: !in_reply_to ? `${status} #${process.env.DEFAULT_HASHTAG}` : status,
+      visibility: 'public',
+      hasDefaultHashtag: false,
+    };
+
   } else {
-    // toot without community:
+    // secondary toot button:
     // if has hashtag: keep
     // else if public: change visibility to unlisted
     return hasHashtags ? {
@@ -202,7 +212,6 @@ const handleDefaultTag = (withCommunity, status, visibility, in_reply_to) => {
       visibility: isPublic ? 'unlisted' : visibility,
       hasDefaultHashtag: false,
     };
-
   }
 };
 
