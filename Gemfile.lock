@@ -703,7 +703,6 @@ DEPENDENCIES
   lograge (~> 0.10)
   makara (~> 0.4)
   mario-redis-lock (~> 1.2)
-  mastodon_cthulhu
   memory_profiler
   microformats (~> 4.0)
   mime-types (~> 3.2)
@@ -770,4 +769,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.16.6
+   1.17.1
